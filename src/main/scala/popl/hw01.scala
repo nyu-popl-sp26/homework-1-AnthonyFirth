@@ -81,26 +81,42 @@ object hw01 extends App:
   /* Exercises */
 
   def abs(n: Double): Double =
-    ???
+    if n > 0 then n else -n
 
   def ar(p: Int): Int =
-    ???
+    if p < 0 then 1 + ar(-p) 
+    else {
+      if p < 10 then 1 
+      else 1 + ar(p/10)
+    }
+    
 
   def rep(s: String, t: String, n: Int): String =
     require (n >= 0)
-    ???
+
+    def trecurse(s: String, t: String, n: Int, sum: String): String = {
+      if n == 0 then "" 
+      else if n == 1 then sum+s
+      else trecurse(s, t, n-1, sum + s + t)
+    }
+
+    trecurse(s, t, n, "")
 
 
   def approx(c: Double, xn: Double): Double =
-    ???
+    xn - (xn*xn*xn - c)/(3 * xn *xn)
 
   def approxN(c: Double, xn: Double, n: Int): Double =
     require(n >= 0)
-    ???
+    
+    if n == 0 then xn 
+    else approxN(c, approx(c, xn), n-1)
 
   def approxErr(c: Double, xn: Double, epsilon: Double): Double =
     require (epsilon > 0)
-    ???
+    
+    if abs(xn - c/(xn*xn)) < epsilon then xn 
+    else approxErr(c, approx(c, xn), epsilon) 
 
   def root(c: Double): Double =
     approxErr(c, 1.0, 0.0001)
